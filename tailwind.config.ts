@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,12 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				bitcoin: {
+					DEFAULT: '#f7931a',
+					light: '#fba928',
+					dark: '#e58718',
+					bg: '#1a1f2c'
 				}
 			},
 			borderRadius: {
@@ -84,11 +91,42 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'coin-click': {
+					'0%': { transform: 'scale(1)' },
+					'50%': { transform: 'scale(0.95)' },
+					'100%': { transform: 'scale(1)' }
+				},
+				'token-float': {
+					'0%': {
+						opacity: '0',
+						transform: 'translate(0px, 0px)'
+					},
+					'50%': {
+						opacity: '1'
+					},
+					'100%': {
+						opacity: '0',
+						transform: 'translate(random(-20px, 20px), -50px)'
+					}
+				},
+				'pulse-glow': {
+					'0%': {
+						boxShadow: '0 0 5px 0px rgba(247, 147, 26, 0.5)'
+					},
+					'50%': {
+						boxShadow: '0 0 20px 5px rgba(247, 147, 26, 0.7)'
+					},
+					'100%': {
+						boxShadow: '0 0 5px 0px rgba(247, 147, 26, 0.5)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'coin-click': 'coin-click 0.15s ease-in-out',
+				'pulse-glow': 'pulse-glow 2s ease-in-out infinite'
 			}
 		}
 	},
