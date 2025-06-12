@@ -1,73 +1,224 @@
-# Welcome to your Lovable project
+# Bitcoin Tap Harvest - COTI Edition
 
-## Project info
+A Bitcoin-themed clicker game where players can earn TAP tokens on the COTI blockchain using COTI MCP (Model Context Protocol).
 
-**URL**: https://lovable.dev/projects/791a6a56-299f-4333-95d8-1c69b49e29e3
+![Bitcoin Game](https://i.imgur.com/placeholder.png)
 
-## How can I edit this code?
+## Project Overview
 
-There are several ways of editing your application.
+Bitcoin Tap Harvest - COTI Edition is a play-to-earn blockchain game where players click on a Bitcoin to earn in-game tokens, purchase upgrades to increase their earnings, and claim real TAP tokens on the COTI blockchain using COTI MCP.
 
-**Use Lovable**
+### Key Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/791a6a56-299f-4333-95d8-1c69b49e29e3) and start prompting.
+- **Bitcoin Clicker Game**: Click to earn tokens and buy upgrades
+- **COTI Blockchain Integration**: Built on COTI Testnet with thirdweb SDK
+- **COTI MCP Integration**: Uses Model Context Protocol for secure token minting
+- **Wallet Connection**: Connect your MetaMask to COTI Testnet
+- **Token Claiming**: Convert in-game tokens to real TAP tokens via MCP
+- **Automatic Mining**: Purchase upgrades to earn tokens automatically
+- **Offline Earnings**: Earn tokens even when you're not playing
 
-Changes made via Lovable will be committed automatically to this repo.
+## Table of Contents
 
-**Use your preferred IDE**
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Game Mechanics](#game-mechanics)
+- [Blockchain Integration](#blockchain-integration)
+- [Token Server](#token-server)
+- [Deployment](#deployment)
+- [Technologies Used](#technologies-used)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Project Structure
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+The project consists of two main components:
 
-Follow these steps:
+1. **Game Client**: React-based frontend with COTI blockchain integration
+2. **COTI MCP Backend**: Backend service for handling TAP token minting via MCP
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+```
+bitcoin-tap-harvest/
+├── src/                   # Game client source code
+│   ├── components/        # React components
+│   ├── hooks/             # Custom hooks (useWallet, useCotiMcp, useGameState)
+│   ├── lib/               # Blockchain configuration (thirdweb, tap-token)
+│   └── pages/             # Page components
+├── backend/               # COTI MCP backend
+│   ├── server.js          # Express server with MCP integration
+│   └── package.json       # Backend dependencies
+├── token-contract/        # Legacy ERC20 contract (for reference)
+└── token-server/          # Legacy token server (for reference)
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## Getting Started
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Prerequisites
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+- Node.js and npm
+- MetaMask wallet
+- Some COTI tokens for gas fees (automatically provided on testnet)
+
+### Installation and Setup
+
+1. **Clone the repository**
+
+```bash
+git clone <repository-url>
+cd bitcoin-tap-harvest
+```
+
+2. **Install dependencies and start the game client**
+
+```bash
+npm install
+cp .env.example .env
+# Edit .env and add your Thirdweb client ID
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+3. **Configure and start the COTI MCP backend**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+cd backend
+npm install
+npm start
+```
 
-**Use GitHub Codespaces**
+4. **Access the game**
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Open your browser and navigate to http://localhost:5173
 
-## What technologies are used for this project?
+5. **Connect to COTI Testnet**
 
-This project is built with .
+- Click "Connect Wallet" in the game
+- MetaMask will automatically configure COTI Testnet
+- Start playing and earning TAP tokens!
 
+## Game Mechanics
+
+### Basic Gameplay
+
+1. **Click the Bitcoin**: Each click earns you in-game tokens
+2. **Buy Upgrades**: Spend tokens to increase your earnings
+   - Click upgrades: Earn more tokens per click
+   - Passive upgrades: Earn tokens automatically over time
+3. **Convert Tokens**: Convert in-game tokens to claimable tokens
+4. **Claim Tokens**: Claim your tokens to receive BGA tokens on the blockchain
+
+### Upgrades
+
+- **Better Mouse**: Increases tokens earned per click
+- **Basic Miner**: Earns 0.1 tokens per second
+- **GPU Miner**: Earns 1 token per second
+- **Mining Farm**: Earns 8 tokens per second
+- **Quantum Miner**: Earns 50 tokens per second
+
+## COTI Blockchain Integration
+
+### Wallet Connection
+
+The game integrates with MetaMask using thirdweb SDK for COTI Testnet. Players can:
+
+- Connect their wallet to COTI Testnet
+- View their TAP token balance
+- View their COTI balance
+- Claim TAP tokens via COTI MCP
+
+### TAP Token Contract
+
+The TAP token is deployed on COTI Testnet and managed via COTI MCP:
+
+- **Name**: TAP TOKEN
+- **Symbol**: TAP
+- **Decimals**: 6
+- **Contract Address**: 0xC2fd91db1bF0c3062Ea086C4CBD4beEa1aF122D3
+- **Network**: COTI Testnet (Chain ID: 7082400)
+
+### COTI MCP Integration
+
+COTI MCP (Model Context Protocol) provides secure token operations:
+
+- **Minting**: `mint_private_erc20_token` for creating new TAP tokens
+- **Balance Checking**: `get_private_erc20_balance` for checking TAP balances
+- **Native Balance**: `get_native_balance` for checking COTI balances
+
+### Token Claiming Process
+
+1. Player earns in-game tokens by playing
+2. Player converts in-game tokens to claimable tokens
+3. Player claims tokens, which triggers a request to the MCP backend
+4. MCP backend calls COTI MCP to mint TAP tokens
+5. TAP tokens are minted directly to the player's wallet
+
+## Token Server
+
+The token server is a Node.js/Express application that handles the secure transfer of BGA tokens from the game wallet to players' wallets.
+
+### Features
+
+- **Secure Token Transfers**: Executes blockchain transactions to transfer tokens
+- **Rate Limiting**: Prevents abuse by limiting claim requests
+- **Validation**: Validates player addresses and claim amounts
+- **Error Handling**: Provides clear error messages for failed claims
+
+### Configuration
+
+The token server requires a `.env` file with the following variables:
+
+```
+PORT=3001
+PRIVATE_KEY=your_private_key_here_without_0x_prefix
+```
+
+**IMPORTANT**: The private key should belong to a wallet that holds BGA tokens. This wallet will be used to transfer tokens to players. Never commit your actual private key to version control.
+
+## Deployment
+
+### Game Client
+
+The game client can be deployed to any static hosting service (Vercel, Netlify, etc.):
+
+```bash
+npm run build
+# Deploy the 'dist' directory to your hosting service
+```
+
+### Token Server
+
+The token server should be deployed to a secure server environment:
+
+1. Set up a Node.js environment on your server
+2. Configure environment variables
+3. Install dependencies: `npm install --production`
+4. Start the server: `node server.js`
+
+Consider using PM2 or a similar process manager for production deployments.
+
+## Technologies Used
+
+### Frontend
 - Vite
-- TypeScript
 - React
+- TypeScript
 - shadcn-ui
 - Tailwind CSS
+- thirdweb SDK (for COTI blockchain interactions)
 
-## How can I deploy this project?
+### Blockchain
+- COTI Testnet (Layer 1 blockchain)
+- COTI MCP (Model Context Protocol)
+- TAP Token (ERC20 on COTI)
 
-Simply open [Lovable](https://lovable.dev/projects/791a6a56-299f-4333-95d8-1c69b49e29e3) and click on Share -> Publish.
+### Backend
+- Node.js
+- Express
+- @modelcontextprotocol/sdk (for COTI MCP integration)
+- cors (for cross-origin requests)
 
-## Can I connect a custom domain to my Lovable project?
+## License
 
-Yes it is!
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Acknowledgments
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- OpenZeppelin for their secure contract implementations
+- Rootstock for their Bitcoin-compatible smart contract platform

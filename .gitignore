@@ -8,9 +8,31 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+*/node_modules
 dist
 dist-ssr
+*/dist
+*/build
 *.local
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+token-server/.env
+token-contract/.env
+
+# Hardhat files
+cache/
+artifacts/
+typechain/
+typechain-types/
+
+# Bun
+bun.lockb
 
 # Editor directories and files
 .vscode/*

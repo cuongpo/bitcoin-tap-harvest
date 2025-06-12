@@ -1,0 +1,36 @@
+services:
+  # Backend API Service
+  - type: web
+    name: bitcoin-tap-harvest-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 3003
+      - key: SMITHERY_API_KEY
+        value: 36e96d01-a9dd-4e4c-a705-bbe239a712ea
+      - key: COTI_MCP_AES_KEY
+        value: bd9e845a40c6d9d5993fe779219f06de
+      - key: COTI_MCP_PRIVATE_KEY
+        value: 9aaf3492daad3ca9df711faebcdb482a64271ec1256c0501805871c92a85974e
+      - key: COTI_MCP_PUBLIC_KEY
+        value: 0x07d36857d6A48841193c131e735B24ADe93bDa37
+
+  # Frontend Static Site
+  - type: web
+    name: bitcoin-tap-harvest-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_THIRDWEB_CLIENT_ID
+        value: 45269f39f19456cb5776c4bba9bf72a4
+      - key: VITE_TAP_TOKEN_ADDRESS
+        value: 0xC2fd91db1bF0c3062Ea086C4CBD4beEa1aF122D3
+      - key: VITE_BACKEND_URL
+        fromService:
+          type: web
+          name: bitcoin-tap-harvest-backend
+          property: host

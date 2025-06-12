@@ -1,0 +1,19 @@
+{
+  "name": "bitcoin-tap-harvest-backend",
+  "version": "1.0.0",
+  "description": "Backend API for COTI MCP Integration",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "keywords": ["coti", "mcp", "blockchain", "tap", "tokens"],
+  "author": "",
+  "license": "MIT"
+}

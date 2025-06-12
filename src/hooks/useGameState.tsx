@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 
 export interface Upgrade {
@@ -18,6 +17,8 @@ export interface GameState {
   tokensPerClick: number;
   tokensPerSecond: number;
   totalTokensEarned: number;
+  claimableTokens: number;
+  claimedTokens: number;
   clicks: number;
   lastSaved: number;
   upgrades: Upgrade[];
@@ -81,6 +82,8 @@ const initialState: GameState = {
   tokensPerClick: 1,
   tokensPerSecond: 0,
   totalTokensEarned: 0,
+  claimableTokens: 0,
+  claimedTokens: 0,
   clicks: 0,
   lastSaved: Date.now(),
   upgrades: defaultUpgrades,
@@ -96,6 +99,13 @@ export const useGameState = () => {
     if (savedState) {
       try {
         const parsedState = JSON.parse(savedState);
+        // Handle migration from older versions without claimable/claimed tokens
+        if (parsedState.claimableTokens === undefined) {
+          parsedState.claimableTokens = 0;
+        }
+        if (parsedState.claimedTokens === undefined) {
+          parsedState.claimedTokens = 0;
+        }
         return {
           ...parsedState,
           lastSaved: Date.now(),
@@ -198,6 +208,28 @@ export const useGameState = () => {
     });
   };
 
+  const convertToClaimable = (amount: number) => {
+    if (amount <= 0 || amount > gameState.tokens) return;
+    
+    setGameState((prev) => ({
+      ...prev,
+      tokens: prev.tokens - amount,
+      claimableTokens: prev.claimableTokens + amount
+    }));
+  };
+
+  const claimTokens = (amount: number) => {
+    if (amount <= 0 || amount > gameState.claimableTokens) return;
+    
+    setGameState((prev) => ({
+      ...prev,
+      claimableTokens: prev.claimableTokens - amount,
+      claimedTokens: prev.claimedTokens + amount
+    }));
+    
+    return amount;
+  };
+
   const resetGame = () => {
     localStorage.removeItem(LOCAL_STORAGE_KEY);
     setGameState(initialState);
@@ -207,6 +239,8 @@ export const useGameState = () => {
     gameState,
     clickBitcoin,
     buyUpgrade,
+    convertToClaimable,
+    claimTokens,
     resetGame,
   };
 };

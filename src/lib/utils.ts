@@ -6,6 +6,25 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+// Polyfill for crypto.randomUUID for mobile browsers
+export function generateUUID(): string {
+  // Check if crypto.randomUUID is available
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    try {
+      return crypto.randomUUID();
+    } catch (error) {
+      // Fall back to manual generation if crypto.randomUUID fails
+    }
+  }
+
+  // Fallback UUID generation for mobile browsers
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
 export function formatNumber(value: number): string {
   if (value === 0) return '0';
   

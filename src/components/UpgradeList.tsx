@@ -25,10 +25,9 @@ const UpgradeList: React.FC<UpgradeListProps> = ({ upgrades, tokens, onBuyUpgrad
   });
   
   return (
-    <div className="mt-4 w-full">
-      <h2 className="text-xl font-semibold mb-3">Upgrades</h2>
-      <ScrollArea className="h-[calc(100vh-380px)] pr-4">
-        <div className="space-y-2">
+    <div className="w-full">
+      <ScrollArea className="h-[calc(100vh-420px)] pr-2">
+        <div className="space-y-3">
           {sortedUpgrades.map(upgrade => (
             <UpgradeItem
               key={upgrade.id}
